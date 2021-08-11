@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {Catalogo} from './components/Catalogo';
+import {productos} from './productos';
 
-function App() {
+export const App = () => {
+  const [soloStock, setSoloStock] = useState(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Catálogo de Productos</h1>
+      <div className="toggle-container">
+        <label htmlFor="stock">Toggle Stock</label>
+        <input
+          onChange={() => setSoloStock(!soloStock)}
+          name="stock"
+          type="checkbox"
+          checked={soloStock}
+        />
+      </div>
+      {soloStock ? (
+        <Catalogo productos={productos.filter((prod) => prod.stock)} />
+      ) : (
+        <Catalogo productos={productos} />
+      )}
+
+      <button onClick={() => setSoloStock(true)}>
+        Mostrar los que están en Stock
+      </button>
     </div>
   );
-}
-
-export default App;
+};
